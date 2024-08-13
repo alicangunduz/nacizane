@@ -10,7 +10,7 @@ export default function SignInWithGithub() {
         signIn("github", { callbackUrl: `http://localhost:3000/` })
       }
       type="submit"
-      className=""
+      className="rounded-none"
     >
       Giriş Yap <Github className="w-4 h-4 ml-2" />
     </Button>

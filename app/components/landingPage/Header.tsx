@@ -4,6 +4,7 @@ import SignInWithGithub from "@/app/components/SignInWithGithub";
 import getUserId from "@/app/utils/getUserId";
 import prisma from "@/app/utils/db";
 import ProfileCard from "./ProfileCard";
+import BlurFade from "@/components/magicui/blur-fade";
 
 const getUser = async () => {
   const userId = await getUserId();
@@ -26,7 +27,7 @@ async function Header() {
   const image = (await getUser())?.image || "";
   const name = (await getUser())?.name || "";
   return (
-    <header className=" mt-2 px-4 lg:px-6 h-14 flex items-center">
+    <header className=" my-2 px-4 lg:px-6 h-14 flex items-center">
       <Link
         href="#"
         className="flex items-center justify-center"
@@ -51,13 +52,6 @@ async function Header() {
           </Link>
         ) : (
           <>
-            <Link
-              href="#"
-              className="text-sm font-medium hover:underline underline-offset-4"
-              prefetch={false}
-            >
-              Gizlilik Sözleşmesi
-            </Link>
             <Link
               href=""
               className="text-sm font-medium hover:underline underline-offset-4"
