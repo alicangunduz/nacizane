@@ -13,6 +13,13 @@ model User {
   email         String          @unique
   emailVerified DateTime?
   image         String?
+  bio           String?
+  isVisible     Boolean         @default(true)
+  isAccept      Boolean         @default(true)
+  github        String?
+  twitter       String?
+  linkedin      String?
+  website       String?
   accounts      Account[]
   sessions      Session[]
   // Optional for WebAuthn support
@@ -20,6 +27,11 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  ReceivedFeedback Feedback[] @relation(name: "ReceivedFeedbacks")
+  GivenFeedback    Feedback[] @relation(name: "GivenFeedbacks")
+
+  @@map("users")
 }
 
 model Account {
@@ -75,4 +87,18 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
+}
+
+model Feedback {
+  id        String   @id @default(cuid())
+  userId    String
+  authorId  String
+  feedback  String
+  createdAt DateTime @default(now())
+
+  user   User @relation(name: "ReceivedFeedbacks", fields: [userId], references: [id], onDelete: Cascade) // User who is receiving feedback
+  author User @relation(name: "GivenFeedbacks", fields: [authorId], references: [id], onDelete: Cascade) // User who is giving feedback
+
+  @@index([userId])
+  @@index([authorId])
 }
