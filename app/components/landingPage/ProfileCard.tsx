@@ -10,8 +10,17 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
 
-function ProfileCard({ image, name }: { image: string; name: string }) {
+function ProfileCard({
+  image,
+  name,
+  username,
+}: {
+  image: string;
+  name: string;
+  username: string;
+}) {
   const nameInitials = name
     .split(" ")
     .map((n) => n[0])
@@ -26,10 +35,21 @@ function ProfileCard({ image, name }: { image: string; name: string }) {
             <AvatarFallback>{nameInitials}</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent align="end" className="rounded-2xl">
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Profilim</DropdownMenuItem>
-          <DropdownMenuItem>Ayarlarım</DropdownMenuItem>
+          {username ? (
+            <Link href={`/${username}`}>
+              <DropdownMenuItem>Profilim</DropdownMenuItem>
+            </Link>
+          ) : (
+            <Link href="/ayarlar">
+              <DropdownMenuItem>Profil Oluştur</DropdownMenuItem>
+            </Link>
+          )}
+
+          <Link href="/ayarlar">
+            <DropdownMenuItem>Ayarlar</DropdownMenuItem>
+          </Link>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={() => {
