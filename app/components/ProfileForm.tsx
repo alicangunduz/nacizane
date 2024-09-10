@@ -1,4 +1,4 @@
-"use client"; // Client-side bileşen olduğu için bunu ekliyoruz
+"use client";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -10,7 +10,6 @@ import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 
-// Formik ve Yup ile form yönetimi
 const validationSchema = Yup.object({
   username: Yup.string()
     .required("Kullanıcı adı gerekli")
@@ -40,7 +39,6 @@ export default function ProfileForm({ user }: { user: any }) {
     validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        // Tüm değerlerin başındaki ve sonundaki boşlukları temizliyoruz
         const trimmedValues = {
           username: values.username.trim().toLowerCase(),
           github: values.github.trim().toLowerCase(),
@@ -52,7 +50,6 @@ export default function ProfileForm({ user }: { user: any }) {
           isAccept: values.isAccept,
         };
 
-        // Eğer username boşsa formu göndermeyi engelle
         if (!trimmedValues.username) {
           toast({
             title: "Hata",
@@ -73,7 +70,6 @@ export default function ProfileForm({ user }: { user: any }) {
 
         const result = await response.json();
 
-        // Eğer API'den gelen yanıt başarısızsa ve username benzersiz değilse, toast mesajı göster
         if (result.success) {
           toast({
             title: "Değişikler Kayıt Edildi",
@@ -282,10 +278,13 @@ export default function ProfileForm({ user }: { user: any }) {
               id="isAccept"
               name="isAccept"
               checked={formik.values.isAccept}
-              onChange={formik.handleChange}
+              onCheckedChange={(value: boolean) =>
+                formik.setFieldValue("isAccept", value)
+              }
               onBlur={formik.handleBlur}
               className="rounded-2xl"
             />
+
             <span className="text-muted-foreground">
               Hesabınız geri bildirim almak için açık olmalıdır.
             </span>
@@ -299,10 +298,13 @@ export default function ProfileForm({ user }: { user: any }) {
               id="isVisible"
               name="isVisible"
               checked={formik.values.isVisible}
-              onChange={formik.handleChange}
+              onCheckedChange={(value: boolean) =>
+                formik.setFieldValue("isVisible", value)
+              }
               onBlur={formik.handleBlur}
               className="rounded-2xl"
             />
+
             <span className="text-muted-foreground">
               İnsanların profil adresiniz ile ziyaret edebilmesi için hesabınız
               açık olmalıdır.

@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import prisma from "@/app/utils/db";
 import getUserId from "@/app/utils/getUserId";
 
-// API rotası için PUT metodu kullanarak kullanıcı verilerini güncelliyoruz
 export async function PUT(req: Request) {
   try {
     const userId = await getUserId();
@@ -14,13 +13,19 @@ export async function PUT(req: Request) {
       );
     }
 
-    // API'den gelen veriyi alıyoruz
     const data = await req.json();
 
-    const { username, twitter, github, linkedin, bio, isVisible, isAccept } =
-      data;
+    const {
+      username,
+      twitter,
+      github,
+      linkedin,
+      website,
+      bio,
+      isVisible,
+      isAccept,
+    } = data;
 
-    // Kullanıcı adının benzersiz olup olmadığını kontrol et
     const existingUser = await prisma.user.findUnique({
       where: { username },
     });
@@ -32,7 +37,6 @@ export async function PUT(req: Request) {
       );
     }
 
-    // Veritabanında kullanıcıyı güncelle
     const user = await prisma.user.update({
       where: { id: userId },
       data: {
@@ -40,6 +44,7 @@ export async function PUT(req: Request) {
         twitter,
         github,
         linkedin,
+        website,
         bio,
         isVisible,
         isAccept,

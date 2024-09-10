@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 function ProfileCard({
   image,
@@ -25,6 +26,7 @@ function ProfileCard({
     .split(" ")
     .map((n) => n[0])
     .join("");
+  const router = useRouter();
   return (
     <div>
       {" "}
@@ -53,8 +55,9 @@ function ProfileCard({
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={() => {
+              const currentUrl = window.location.href;
               signOut({
-                callbackUrl: `${window.location.origin}/`,
+                callbackUrl: currentUrl,
               });
             }}
           >
