@@ -29,8 +29,10 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  ReceivedFeedback Feedback[] @relation(name: "ReceivedFeedbacks")
-  GivenFeedback    Feedback[] @relation(name: "GivenFeedbacks")
+  ReceivedFeedback Feedback[]    @relation(name: "ReceivedFeedbacks")
+  GivenFeedback    Feedback[]    @relation(name: "GivenFeedbacks")
+  FeedbackLog      FeedbackLog[]
+  Ban              Ban?
 
   @@map("users")
 }
@@ -104,4 +106,20 @@ model Feedback {
 
   @@index([userId])
   @@index([authorId])
+}
+
+model FeedbackLog {
+  id        String   @id @default(cuid())
+  userId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Ban {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  bannedUntil DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
