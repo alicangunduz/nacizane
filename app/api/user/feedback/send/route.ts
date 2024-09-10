@@ -60,6 +60,22 @@ export async function POST(req: Request) {
       );
     }
 
+    // Aynı kullanıcıya 3'ten fazla geri bildirim kontrolü (sadece isDeleted: false olanlar dahil edilir)
+    const feedbackCount = await prisma.feedback.count({
+      where: {
+        userId, // Feedbacki alan kişi
+        authorId, // Feedbacki gönderen kişi
+        isDeleted: false, // Sadece silinmemiş feedback'ler
+      },
+    });
+
+    if (feedbackCount >= 3) {
+      return NextResponse.json(
+        { message: "Bir kullanıcıya en fazla 3 geri bildirim verebilirsiniz." },
+        { status: 403 }
+      );
+    }
+
     // Son 1 dakikadaki logları kontrol et (başarılı ve başarısız toplamı)
     const oneMinuteAgo = new Date(new Date().getTime() - 60 * 1000);
     const recentLogs = await prisma.feedbackLog.count({
