@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "./components/landingPage/Header";
 import Footer from "./components/landingPage/Footer";
 import Announcement from "./components/landingPage/Announcement";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
           <Announcement />
           <Header />
           {children}
+          <Toaster />
           <Footer />
         </div>
       </body>

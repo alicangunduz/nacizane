@@ -5,6 +5,7 @@ import getUserId from "@/app/utils/getUserId";
 import prisma from "@/app/utils/db";
 import ProfileCard from "./ProfileCard";
 import BlurFade from "@/components/magicui/blur-fade";
+import { Button } from "@/components/ui/button";
 
 const getUser = async () => {
   const userId = await getUserId();
@@ -16,6 +17,7 @@ const getUser = async () => {
     select: {
       image: true,
       name: true,
+      username: true,
     },
   });
 
@@ -26,10 +28,11 @@ async function Header() {
   const userId = await getUserId();
   const image = (await getUser())?.image || "";
   const name = (await getUser())?.name || "";
+  const username = (await getUser())?.username || "";
   return (
-    <header className=" my-2 px-4 lg:px-6 h-14 flex items-center">
+    <header className=" my-2 px-4 lg:px-6 h-14 flex items-center ">
       <Link
-        href="#"
+        href="/"
         className="flex items-center justify-center"
         prefetch={false}
       >
@@ -41,14 +44,14 @@ async function Header() {
           className="cursor-pointer "
         />
       </Link>
-      <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
+      <nav className="ml-auto flex gap-4 sm:gap-6 items-center ">
         {userId ? (
           <Link
             href=""
             className="text-sm font-medium hover:underline underline-offset-4"
             prefetch={false}
           >
-            <ProfileCard image={image} name={name} />
+            <ProfileCard image={image} name={name} username={username} />
           </Link>
         ) : (
           <>
