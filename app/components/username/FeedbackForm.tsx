@@ -63,11 +63,20 @@ const FeedbackForm = ({ userId, authorId }: FeedbackFormProps) => {
           data.message ===
           "Çok fazla geri bildirim gönderdiniz. 10 dakika bekleyin."
         ) {
-          // Eğer kullanıcı çok fazla istek gönderdiyse ve banlandıysa
           toast({
             title: "Çok fazla istek",
             description:
               "Çok fazla geri bildirim gönderdiniz. Lütfen 10 dakika bekleyin.",
+            variant: "warning",
+          });
+        } else if (
+          data.message ===
+          "Bir kullanıcıya en fazla 3 geri bildirim verebilirsiniz."
+        ) {
+          toast({
+            title: "Geri bildirim limiti",
+            description:
+              "Bir kullanıcıya en fazla 3 geri bildirim verebilirsiniz.",
             variant: "warning",
           });
         } else {
