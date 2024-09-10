@@ -41,6 +41,7 @@ const FeedbackForm = ({ userId, authorId }: FeedbackFormProps) => {
         });
 
         const data = await response.json();
+
         if (response.ok) {
           resetForm();
           toast({
@@ -57,6 +58,17 @@ const FeedbackForm = ({ userId, authorId }: FeedbackFormProps) => {
             description:
               "Geri bildirim moderasyondan geçemedi. Lütfen daha yapıcı bir geri bildirim yazın.",
             variant: "destructive",
+          });
+        } else if (
+          data.message ===
+          "Çok fazla geri bildirim gönderdiniz. 10 dakika bekleyin."
+        ) {
+          // Eğer kullanıcı çok fazla istek gönderdiyse ve banlandıysa
+          toast({
+            title: "Çok fazla istek",
+            description:
+              "Çok fazla geri bildirim gönderdiniz. Lütfen 10 dakika bekleyin.",
+            variant: "warning",
           });
         } else {
           toast({
