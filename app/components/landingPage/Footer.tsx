@@ -5,7 +5,7 @@ import BlurFade from "@/components/magicui/blur-fade";
 function Footer() {
   return (
     <BlurFade delay={0.02} inView>
-      <footer className="py-10 text-muted-foreground items-end">
+      <footer className="mt-auto py-10 text-muted-foreground items-end w-full">
         <div className="container mx-auto max-w-7xl px-4 md:px-6">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <p className="text-sm">

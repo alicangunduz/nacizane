@@ -91,14 +91,16 @@ model Authenticator {
 }
 
 model Feedback {
-  id        String   @id @default(cuid())
-  userId    String
-  authorId  String
-  feedback  String
-  createdAt DateTime @default(now())
+  id               String   @id @default(cuid())
+  userId           String
+  authorId         String
+  randomAuthorName String
+  feedback         String
+  isDeleted        Boolean  @default(false)
+  createdAt        DateTime @default(now())
 
-  user   User @relation(name: "ReceivedFeedbacks", fields: [userId], references: [id], onDelete: Cascade) // User who is receiving feedback
-  author User @relation(name: "GivenFeedbacks", fields: [authorId], references: [id], onDelete: Cascade) // User who is giving feedback
+  user   User @relation(name: "ReceivedFeedbacks", fields: [userId], references: [id], onDelete: Cascade)
+  author User @relation(name: "GivenFeedbacks", fields: [authorId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([authorId])
