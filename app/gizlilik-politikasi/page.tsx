@@ -22,7 +22,7 @@ function PrivacyPolicy() {
           <p>
             Nacizane, kullanıcılar platforma erişim sağladığında ve geri
             bildirim verdiğinde belirli bilgileri toplar: Kullanıcı adı, e-posta
-            adresi, geri bildirimler, giriş zamanları ve IP adresleri.
+            adresi, geri bildirimler, hesap oluşturma tarihleri.
           </p>
 
           <h2 className="font-semibold">3. Anonimlik</h2>
