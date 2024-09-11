@@ -9,7 +9,14 @@ function Footer() {
         <div className="container mx-auto max-w-7xl px-4 md:px-6">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <p className="text-sm">
-              &copy; 2024 Nacizane.co , Bir Ali Can Gündüz projesidir.
+              &copy; 2024 Nacizane.co , Bir
+              <Link
+                href="https://github.com/alicangunduz"
+                className="hover:underline"
+              >
+                Ali Can Gündüz
+              </Link>
+              projesidir.
             </p>
             <nav className="flex gap-4">
               <Link
