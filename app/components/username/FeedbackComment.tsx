@@ -100,14 +100,6 @@ function FeedbackComment({ ReceivedFeedback, isOwner }: FeedbackCommentProps) {
                   variant="ghost"
                   size="icon"
                   className="w-4 h-4 hover:bg-transparent text-stone-400 hover:text-stone-900"
-                >
-                  <FaShare className="w-4 h-4" />
-                  <span className="sr-only">Paylaş</span>
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="w-4 h-4 hover:bg-transparent text-stone-400 hover:text-stone-900"
                   onClick={() => handleDeleteFeedback(feedback.id)}
                 >
                   <FaTrashAlt className="w-4 h-4" />
