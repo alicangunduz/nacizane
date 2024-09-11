@@ -13,14 +13,14 @@ function Footer() {
             </p>
             <nav className="flex gap-4">
               <Link
-                href="#"
+                href="/kullanim-kosullari"
                 className="text-sm hover:underline hover:underline-offset-4"
                 prefetch={false}
               >
                 Kullanım Koşulları
               </Link>
               <Link
-                href="#"
+                href="/gizlilik-politikasi"
                 className="text-sm hover:underline hover:underline-offset-4"
                 prefetch={false}
               >
