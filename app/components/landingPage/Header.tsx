@@ -37,7 +37,7 @@ async function Header() {
         prefetch={false}
       >
         <Image
-          src="/nacizaneco.png"
+          src="/Nacizaneco.png"
           alt="Nacizane.co logosu, sol tarafta stilize bir konuşma balonu simgesi ve sağında kalın mavi harflerle yazılmış 'Nacizane.co' metni içeriyor."
           width={200}
           height={70}
