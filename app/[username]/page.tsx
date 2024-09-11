@@ -64,6 +64,16 @@ export default async function UserPage({ params }: Params) {
       <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid gap-8">
           <div className="flex items-center gap-6">
+            {loggedInUserId?.username === null ? (
+              <Link href="/ayarlar">
+                <div className="p-4 mb-8 text-sm text-primary-foreground rounded-2xl bg-primary border">
+                  <span className="font-bold">Bilgi: </span> Sende geri bildirim
+                  almak istiyorsan hemen buraya tıkla kullanıcı adını belirle ve
+                  profilini paylaş!
+                </div>
+              </Link>
+            ) : null}
+
             <Avatar className="h-16 w-16">
               <AvatarImage src={user.image || ""} alt={user?.name || ""} />
               <AvatarFallback>
