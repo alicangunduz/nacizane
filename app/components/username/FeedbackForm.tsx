@@ -1,10 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { FaSpinner } from "react-icons/fa6";
 
 const validationSchema = Yup.object().shape({
   comment: Yup.string()
@@ -20,6 +22,7 @@ interface FeedbackFormProps {
 
 const FeedbackForm = ({ userId, authorId }: FeedbackFormProps) => {
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false); // isLoading state
 
   const formik = useFormik({
     initialValues: {
@@ -27,6 +30,7 @@ const FeedbackForm = ({ userId, authorId }: FeedbackFormProps) => {
     },
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
+      setIsLoading(true); // Set loading to true when submitting
       try {
         const response = await fetch("/api/user/feedback/send", {
           method: "POST",
@@ -94,6 +98,8 @@ const FeedbackForm = ({ userId, authorId }: FeedbackFormProps) => {
           variant: "destructive",
         });
         console.error("Error submitting feedback", error);
+      } finally {
+        setIsLoading(false); // Set loading to false after request is done
       }
     },
   });
@@ -109,14 +115,26 @@ const FeedbackForm = ({ userId, authorId }: FeedbackFormProps) => {
           onBlur={formik.handleBlur}
           value={formik.values.comment}
           className="min-h-[100px] rounded-2xl"
+          disabled={isLoading} // Disable textarea when loading
         />
         {formik.touched.comment && formik.errors.comment ? (
           <p className="text-red-500">{formik.errors.comment}</p>
         ) : null}
       </div>
       <div className="flex justify-end">
-        <Button type="submit" className="bg-primary rounded-2xl">
-          Gönder
+        <Button
+          type="submit"
+          className="bg-primary rounded-2xl"
+          disabled={isLoading} // Disable button when loading
+        >
+          {isLoading ? (
+            <>
+              <FaSpinner className="mr-2 h-4 w-4 animate-spin" />{" "}
+              Gönderiliyor...
+            </>
+          ) : (
+            "Gönder"
+          )}
         </Button>
       </div>
     </form>
