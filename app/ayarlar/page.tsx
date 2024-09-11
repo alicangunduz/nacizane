@@ -33,7 +33,7 @@ export default async function Profilim() {
               className="p-4 mb-8 text-sm text-primary-foreground rounded-2xl bg-primary border"
               role="alert"
             >
-              <span className="font-bold">Bilgi: </span> Profilinzi paylaşmak
+              <span className="font-bold">Bilgi: </span> Profilinizi paylaşmak
               için bir kullanıcı adı belirlemeniz gerekir.
             </div>
           )}

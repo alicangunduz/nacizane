@@ -139,7 +139,7 @@ export default async function UserPage({ params }: Params) {
           {loggedInUserId === null ? null : loggedInUserId.username === null ? (
             <Link href="/ayarlar">
               <div className="p-4 mb-8 text-sm text-primary-foreground rounded-2xl bg-primary border">
-                <span className="font-bold">Bilgi: </span> Sende geri bildirim
+                <span className="font-bold">Bilgi: </span> Sen de geri bildirim
                 almak istiyorsan hemen buraya tıkla kullanıcı adını belirle ve
                 profilini paylaş!
               </div>
