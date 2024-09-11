@@ -9,6 +9,7 @@ function Announcement() {
         <Link
           href="https://github.com/alicangunduz/nacizane"
           className="inline-block underline"
+          target="_blank"
         >
           Buraya tıklayarak contributor olabilirsiniz.
         </Link>
