@@ -173,8 +173,7 @@ export async function POST(req: Request) {
     console.error("Error creating feedback", error);
     return NextResponse.json(
       {
-        error:
-          "Geri bildirim kaydedilirken bir hata oluştu. Lütfen tekrar deneyin. Muhtemelen yapay zeka çıktısı doğru şekilde alınamadı.",
+        error: "Geri bildirim kaydedilirken bir hata oluştu.",
       },
       { status: 500 }
     );

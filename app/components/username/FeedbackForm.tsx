@@ -86,7 +86,8 @@ const FeedbackForm = ({ userId, authorId }: FeedbackFormProps) => {
         } else {
           toast({
             title: "Hata",
-            description: "Geri bildirim gönderilirken bir hata oluştu.",
+            description:
+              "Geri bildirim kaydedilirken bir hata oluştu. Lütfen tekrar deneyin. Muhtemelen yapay zeka çıktısı doğru şekilde alınamadı.",
             variant: "destructive",
           });
           console.error("Error submitting feedback");
@@ -94,7 +95,8 @@ const FeedbackForm = ({ userId, authorId }: FeedbackFormProps) => {
       } catch (error) {
         toast({
           title: "Hata",
-          description: "Geri bildirim gönderilirken bir hata oluştu.",
+          description:
+            "Geri bildirim kaydedilirken bir hata oluştu. Lütfen tekrar deneyin. Muhtemelen yapay zeka çıktısı doğru şekilde alınamadı.",
           variant: "destructive",
         });
         console.error("Error submitting feedback", error);
