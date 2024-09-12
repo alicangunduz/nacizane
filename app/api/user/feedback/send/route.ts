@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/app/utils/db";
 import { randomAuthorName } from "@/lib/randomAuthorName";
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+import getToken from "@/app/utils/getToken";
 
 const apiKey = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(apiKey);
@@ -47,6 +48,31 @@ export async function POST(req: Request) {
     randomAuthorName[Math.floor(Math.random() * randomAuthorName.length)];
   try {
     const { feedback, userId, authorId } = await req.json();
+
+    // Token kontrolü
+    const token = getToken();
+
+    if (token === "") {
+      return NextResponse.json(
+        { message: "Giriş yapmanız gerekiyor." },
+        { status: 401 }
+      );
+    }
+
+    const userIdFromToken = await prisma.session.findUnique({
+      where: { sessionToken: token },
+    });
+
+    if (!userIdFromToken) {
+      return NextResponse.json({ message: "Geçersiz token." }, { status: 401 });
+    }
+
+    if (userIdFromToken.userId !== authorId) {
+      return NextResponse.json(
+        { message: "Bu işlemi yapmaya yetkiniz yok." },
+        { status: 403 }
+      );
+    }
 
     // Ban kontrolü
     const ban = await prisma.ban.findUnique({
@@ -146,7 +172,10 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("Error creating feedback", error);
     return NextResponse.json(
-      { error: "Geri bildirim kaydedilirken bir hata oluştu." },
+      {
+        error:
+          "Geri bildirim kaydedilirken bir hata oluştu. Lütfen tekrar deneyin. Muhtemelen yapay zeka çıktısı doğru şekilde alınamadı.",
+      },
       { status: 500 }
     );
   }
