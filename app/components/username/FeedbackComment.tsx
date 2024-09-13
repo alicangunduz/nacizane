@@ -25,7 +25,7 @@ function FeedbackComment({ ReceivedFeedback, isOwner }: FeedbackCommentProps) {
   async function handleDeleteFeedback(id: any) {
     try {
       const res = await fetch("/api/user/feedback/delete", {
-        method: "POST",
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },

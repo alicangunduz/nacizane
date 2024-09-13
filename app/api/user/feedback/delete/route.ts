@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/app/utils/db";
 import getUserId from "@/app/utils/getUserId";
 
-export async function POST(req: Request) {
+export async function DELETE(req: Request) {
   try {
     const userId = await getUserId();
 
@@ -22,7 +22,9 @@ export async function POST(req: Request) {
       );
     }
 
-    const feedback = await prisma.feedback.findFirst({ where: { id: feedbackId, userId, isDeleted: false } });
+    const feedback = await prisma.feedback.findFirst({
+      where: { id: feedbackId, userId, isDeleted: false },
+    });
     if (!feedback) {
       return NextResponse.json(
         { success: false, message: "Feedback not found" },
@@ -32,9 +34,12 @@ export async function POST(req: Request) {
 
     if (feedback.userId !== userId) {
       return NextResponse.json(
-        { success: false, message: "User does not have feedback id for this user" },
+        {
+          success: false,
+          message: "User does not have feedback id for this user",
+        },
         { status: 403 }
-      )
+      );
     }
 
     const updatedFeedback = await prisma.feedback.update({
