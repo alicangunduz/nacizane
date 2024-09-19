@@ -26,8 +26,8 @@ Projeyi yerel ortamda çalıştırmak için aşağıdaki adımları takip edebil
 1. **Projeyi klonlayın:**
 
 ```bash
-git clone https://github.com/alicangunduz/nacizane.co.git
-cd nacizane.co
+git clone https://github.com/alicangunduz/nacizane.git
+cd nacizane
 ```
 
 2. **Ortam değişkenlerini ayarlayın:**
