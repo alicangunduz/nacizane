@@ -3,44 +3,34 @@ import prisma from "@/app/utils/db";
 import { randomAuthorName } from "@/lib/randomAuthorName";
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 import getToken from "@/app/utils/getToken";
+import OpenAI from "openai";
 
-const apiKey = process.env.GEMINI_API_KEY;
-const genAI = new GoogleGenerativeAI(apiKey);
+const deepSeekApiKey = process.env.DEEPSEEK_API_KEY;
 
-const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
+const openai = new OpenAI({
+  baseURL: "https://api.deepseek.com",
+  apiKey: deepSeekApiKey,
 });
 
-const generationConfig = {
-  temperature: 1,
-  topP: 0.95,
-  topK: 64,
-  maxOutputTokens: 8192,
-  responseMimeType: "text/plain",
-};
-
-async function checkModeration(feedback: string) {
-  const prompt = `Sana aşağıda tırnaklar içerisinde bir eleştiri cümlesi vereceğim bu cümle iyi veya kötü eleştiri olabilir fakat bunu moderasyonunu sağlaman lazım. Bu cümle T.C kanunları kapsamında hakaret kesinlikle içermemeli , ağır aşağılama içermemeli. Kontrol sonrasında bana sadece json formatında şu şekilde dönüş sağla:
+async function checkModerationDeepSeek(feedback: string) {
+  const completion = await openai.chat.completions.create({
+    messages: [
+      {
+        role: "user",
+        content: `Sana aşağıda tırnaklar içerisinde bir eleştiri cümlesi vereceğim bu cümle iyi veya kötü eleştiri olabilir fakat bunu moderasyonunu sağlaman lazım. Bu cümle T.C kanunları kapsamında hakaret kesinlikle içermemeli , ağır aşağılama içermemeli. Kontrol sonrasında bana sadece json formatında şu şekilde dönüş sağla:
 {
   "moderated": true
 }
 Moderasyonundan geçti ise true geçmedi ise false dön.
-İşte eleştiri metni:"${feedback}"`;
-
-  const chatSession = model.startChat({
-    generationConfig,
-    history: [
-      {
-        role: "user",
-        parts: [{ text: prompt }],
+İşte eleştiri metni:"${feedback}"`,
       },
     ],
+    model: "deepseek-chat",
   });
 
-  const result = await chatSession.sendMessage(feedback);
-  const moderationResult = JSON.parse(result.response.text());
-
-  return moderationResult.moderated;
+  const content = completion.choices[0].message.content || "{}";
+  const moderationResult = content.includes("true") ? true : false;
+  return moderationResult;
 }
 
 export async function POST(req: Request) {
@@ -133,7 +123,7 @@ export async function POST(req: Request) {
     }
 
     // Moderasyon kontrolü
-    const isModerated = await checkModeration(feedback);
+    const isModerated = await checkModerationDeepSeek(feedback);
     if (!isModerated) {
       // Başarısız geri bildirim girişimini logla
       await prisma.feedbackLog.create({
