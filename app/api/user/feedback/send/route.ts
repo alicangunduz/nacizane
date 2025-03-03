@@ -29,9 +29,9 @@ async function checkModerationDeepSeek(feedback: string) {
     stream: false,
   });
 
-  const content = completion.choices[0].message.content || "{}";
-  const moderationResult = content.includes("true") ? true : false;
-  return moderationResult;
+  const content = JSON.parse(completion.choices[0].message.content || "{}");
+  const isModerated = content.moderated.includes("true") ? true : false;
+  return isModerated;
 }
 
 export async function POST(req: Request) {
