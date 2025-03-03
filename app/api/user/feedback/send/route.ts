@@ -14,18 +14,19 @@ const openai = new OpenAI({
 
 async function checkModerationDeepSeek(feedback: string) {
   const completion = await openai.chat.completions.create({
+    model: "deepseek-chat",
     messages: [
       {
+        role: "system",
+        content:
+          "Sana aşağıda tırnaklar içerisinde bir eleştiri cümlesi vereceğim bu cümle iyi veya kötü eleştiri olabilir fakat bunu moderasyonunu sağlaman lazım. Bu cümle T.C kanunları kapsamında hakaret kesinlikle içermemeli , ağır aşağılama içermemeli. Kontrol sonrasında bana şu şekilde dönüş sağla 'moderated': true \nModerasyonundan geçti ise true geçmedi ise false dön. Başka hiç bir şey yazma sakın sadece onu yaz.\n\n",
+      },
+      {
         role: "user",
-        content: `Sana aşağıda tırnaklar içerisinde bir eleştiri cümlesi vereceğim bu cümle iyi veya kötü eleştiri olabilir fakat bunu moderasyonunu sağlaman lazım. Bu cümle T.C kanunları kapsamında hakaret kesinlikle içermemeli , ağır aşağılama içermemeli. Kontrol sonrasında bana sadece json formatında şu şekilde dönüş sağla:
-{
-  "moderated": true
-}
-Moderasyonundan geçti ise true geçmedi ise false dön.
-İşte eleştiri metni:"${feedback}"`,
+        content: feedback,
       },
     ],
-    model: "deepseek-chat",
+    stream: false,
   });
 
   const content = completion.choices[0].message.content || "{}";
